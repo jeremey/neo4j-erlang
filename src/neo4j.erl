@@ -322,7 +322,7 @@ cypher(Neo, Query) ->
 -spec cypher(neo4j_root(), binary(), proplists:proplist()) -> cypher_result() | {error, term()}.
 cypher(Neo, Query, Params) ->
   {_, URI} = lists:keyfind(<<"cypher">>, 1, Neo),
-  Payload = jsonx:encode([{query, Query}, {params, Params}]),
+  Payload = jsonx:encode([{'query', Query}, {params, Params}]),
   create(URI, Payload).
 
 %%_* Nodes ---------------------------------------------------------------------
@@ -1544,6 +1544,13 @@ id_to_binary(Id) when is_binary(Id) ->
   Id;
 id_to_binary(_) ->
   {error, invalid_id}.
+
+
+integer_to_binary(X, _) when is_integer(X) ->
+    list_to_binary(integer_to_list(X));
+integer_to_binary(_, X) ->
+    X.
+
 
 %%
 %% Replace {key} type params in URIs provided by resources
