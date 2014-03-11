@@ -1,9 +1,27 @@
-PROJECT = neo4j
 
-DEPS = hackney jsonx
-dep_hackney = https://github.com/benoitc/hackney
-dep_jsonx = https://github.com/iskra/jsonx
+.PHONY: all compile deps clean clean-deps distclean
 
-PLT_APPS ?= asn1 compiler crypto erts inets kernel public_key stdlib ssl syntax_tools
 
-include erlang.mk
+all: compile
+
+
+deps:
+	rebar get-deps
+
+
+compile:
+	rebar compile
+
+
+clean:
+	rebar clean
+	rm -rf ebin 
+
+
+clean-deps:
+	rebar delete-deps
+	rm -rf deps 
+
+
+distclean: clean clean-deps
+
